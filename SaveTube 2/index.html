@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>SaveTube</title>
+    <meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name=mobile-web-app-capable content=yes>
+    <meta name=apple-mobile-web-app-capable content=yes>
+    <meta name=apple-mobile-web-app-status-bar-style content=black>
+    <meta http-equiv=X-UA-Compatible content="ie=edge">
+    <meta http-equiv=Content-Security-Policy content=upgrade-insecure-requests>
+    <meta name=google content=notranslate>
+
+    <!-- descrição -->
+    <meta name="description" content="Use o site do SaveTube para baixar vídeos do Youtube, você pode baixar vídeos em 480p, 720p, 1080p, 2K, 4K.">
+    <!-- descrição -->
+    
+    <!-- canonical -->
+     <link rel="canonical" href="https://savetube.br">
+    <!-- canonical -->
+
+    <!-- CSS e JS -->
+     <!-- CSS -->
+      <link rel="stylesheet" href="style-css/style.css">
+      <link rel="stylesheet" href="theme/css/style.css">
+      <link rel="stylesheet" href="theme/fonts/bootstrap-icons/fonts-css.css">
+      <link rel="stylesheet" href="theme/vendor/bootstrap/css/bootstrap.min.css">
+     <!-- CSS -->
+
+     <!-- JS -->
+      <script src="script-js/script.js"></script>
+      <script src="theme/js/main.js"></script>
+      <script src="theme/vendor/jquery.min.js"></script>
+      <script src="theme/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+     <!-- JS -->
+    <!-- CSS e JS -->
+
+    <!-- favicon -->
+     <link rel="shortcut icon" href="favicon/favicon.png" type="image/x-icon" class="img-nav">
+    <!-- favicon -->
+</head>
+<body>
+    <nav class="nav-site">
+        <h1 class="h1-nav">▶️ savetube.br (Alpha/BETA) ▶️</h1>
+    </nav>  
+
+    <h1 class="title">Baixar vídeos do Youtube Grátis 👍</h1>
+    <p>Com o SaveTube você pode baixar vídeos do Youtube apenas com seu celular ▶️</p>
+
+    <form id="search-form" class="search-form relative" action="#" method="post" action="/en/" onsubmit="return false">
+        <div style="display: inline-block;position: relative">
+            <i class="clearable hidden" style="color: #4e555b">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                </svg>
+            </i>
+            <input type="text" id="txt-url" name="query" type="search" class="search__input" aria-label="Search"
+                   placeholder="Cole o link do vídeo aqui ou use palavras chaves" value="">
+            <ul class="dropdown-menu hidden" role="menu" style="z-index: 1001"></ul>
+        </div>
+        <button id="btn-submit" class="btn-red"
+                type="button">Baixar vídeo</button>
+    </form>
+
+    <div class="alert bg-info text-white" id="error_youtube_url"
+         style="padding: 5px 5px;margin:10px 15px 5px 15px;font-size: 1em;display: none" role="alert">
+        Formato de link do YouTube não suportado. É necessário um link para a página de reprodução de vídeo do YouTube, como https://www.youtube.com/watch?v=be12BC5pQLE    </div>
+    <div id="loading_img" class="text-center hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+             style="margin:auto;background:#fff;display:block;" width="200px" height="100px" viewbox="0 0 100 100"
+             preserveaspectratio="xMidYMid">
+            <g transform="translate(20 50)">
+                <circle cx="0" cy="0" r="6" fill="#e15b64">
+                    <animatetransform attributename="transform" type="scale" begin="-0.375s" calcmode="spline"
+                                      keysplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keytimes="0;0.5;1" dur="1s"
+                                      repeatcount="indefinite"></animatetransform>
+                </circle>
+            </g>
+            <g transform="translate(40 50)">
+                <circle cx="0" cy="0" r="6" fill="#f8b26a">
+                    <animatetransform attributename="transform" type="scale" begin="-0.25s" calcmode="spline"
+                                      keysplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keytimes="0;0.5;1" dur="1s"
+                                      repeatcount="indefinite"></animatetransform>
+                </circle>
+            </g>
+            <g transform="translate(60 50)">
+                <circle cx="0" cy="0" r="6" fill="#abbd81">
+                    <animatetransform attributename="transform" type="scale" begin="-0.125s" calcmode="spline"
+                                      keysplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keytimes="0;0.5;1" dur="1s"
+                                      repeatcount="indefinite"></animatetransform>
+                </circle>
+            </g>
+            <g transform="translate(80 50)">
+                <circle cx="0" cy="0" r="6" fill="#81a3bd">
+                    <animatetransform attributename="transform" type="scale" begin="0s" calcmode="spline"
+                                      keysplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keytimes="0;0.5;1" dur="1s"
+                                      repeatcount="indefinite"></animatetransform>
+                </circle>
+            </g>
+        </svg>
+    </div>
+    <div id="result-wait" class="text-center" style="display: none;">
+        <p id="result-wait-1"><Strong>Aguarde enquanto estamos baixando seu vídeo</Strong></p>
+        <p id="result-wait-2" style="display: none"><Strong>Estamos baixando áudio</Strong></p>
+        <p id="result-wait-3" style="display: none"><Strong>Estamos mesclando o Vídeo e o Áudio</Strong></p>
+        <p id="result-wait-4" style="display: none"><Strong>Convertendo para MP3</Strong></p>
+        <div class="progress">
+            <div id="progressbar2" class="progress-bar progress-bar-info progress-bar-striped progress-bar-animated" role="progressbar"
+                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+            </div>
+            <div id="progressbar1" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+        </div>
+    </div>
+    <div id="separator" class="divider"></div>
+    <div id="result" style="margin-top: 20px"></div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+        <div class="modal-dialog" style="max-width:700px;margin-top: 100px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Title</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            onclick="$('#myModal').modal('hide');">X
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group text-center" id="A_downloadUrl_Form">
+                        <a download id="A_downloadUrl" class="btn btn-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                            </svg>
+                            Baixar Agora </a>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-left">
+                            <br>
+                            Obrigado por usar o SaveTube, a equipe do SaveTube agradeçe a sua visita, volte sempre.                             <br>
+                        </p>
+                        <p class="text-left">
+                            <strong>  Atenciosamente, Equipe SaveTube!</strong>
+                        </p>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+</div>   
+
+<div class="ftco-section center">
+	<h2 class="title">SaveTube é um site que permite baixar vídeos do Youtube gratuitamente!</h2>
+	<div class="txt-box">
+		<p class="mw70">Com o SaveTube, você, seus amigos e famíliares podem baixar vídeos do Youtube sem gastar nenhum centavo com o Youtube Premium. Com o nosso SaveTube, vocês poderam baixar seus vídeos favoritos sem nenhuma burocracia e sem perca de tempo, e o melhor é que é rápido, seguro e confiavel, portanto, vocês não precisam instalar nada e nem passar nenhum dado no nosso site, e também não precisam nem criar conta, é totalmente gratuito e ilimitado. Mas o que é "Ilimitaddo"? Ilimitado significa que vocês poderão usar o SaveTube infinitamente e não precisam se preocupar em pagar plano, pois o nosso site é gratuito. E também é bem rápido para baixar um vídeo, pois vocês só precisam de 5 minutos mais ou menos para fazer download de um vídeo!</p>
+
+		<style>
+			.supported-services {
+				display: flex;
+				flex-wrap: wrap;
+				list-style: none;
+				margin-bottom: 15px;
+				margin-top: 15px;
+				box-sizing: border-box;
+				max-width: 100%;
+				overflow: hidden;
+			}
+
+			.supported-services li {
+				margin: 10px 0;
+				padding: 0 10px;
+			}
+
+			.supported-services li a {
+				font-style: normal;
+				font-weight: 600;
+				font-size: 16px;
+				display: block;
+				text-align: center;
+				line-height: 28px;
+				color: #FFFFFF;
+				max-width: 100%;
+				padding: 11px 0 11px 0px;
+				margin: 0;
+				text-decoration: none;
+				background-position: 20px, 0;
+				background-size: 28px 28px, 100%;
+				border-radius: 10px;
+				box-sizing: content-box;
+				background-repeat:no-repeat;
+			}
+
+            .supported-services{
+                display: flex;
+                align-items: center;
+            }
+		</style>
+
+		<p class="mw70">Conheça o SaveTube, a mais nova ferramenta para baixar vídeos do outube grátis em 2024.</p>
+	</div>
+
+    <div class="ftco-section center">
+        <h2 class="title">SaveTube, Baixe vídeos do Youtube</h2>
+        <p class="mw70">SSYouTube é a capacidade de baixar vídeos em qualquer formato que você escolher. Quer prefira MP4, AVI ou qualquer outro formato, você pode baixar seus vídeos no formato de sua escolha com facilidade. Isso facilita a exibição de vídeos em qualquer dispositivo, seja smartphone, tablet ou laptop.</p>
+        
+    </div>
+
+      <!--
+        =====================================================
+            Blog Section One
+        =====================================================
+        -->
+        <footer>
+            <div class="copyright">
+                <ul class="flex flex-a-i-center">
+                                <li><a href="/terms-of-use">Termos de uso</a></li>
+                                <li><a href="/privacy-policy">Política de privacidade</a></li>
+                            </ul>
+        
+                <ul class="flex flex-a-i-center">
+                                <li><a href=""></a></li>
+                            </ul>
+                            <h3>Nós não somos afiliados do Youtube <br>youtube.com ou Google LLC</h3>
+                <p class="mag0"> © 2024 savetube.br - Todos os direitos reservados</p>
+            </div>
+        </footer>
+        </div>
+            <div id="hidden_val" domain_host="https://savetube.br" download_host="https://savetube.br" theme="savetube" base_url="https://savetube.br" lang="pt"></div>
+        
+    </body>
+    </html>
+    
+    <script defer src="theme/js/main.js"></script>
+    <!-- Default Statcounter code for savetube.br
+    https://savetube.br/ -->
+    <script type="text/javascript">
+    var sc_project=12947219; 
+    var sc_invisible=1; 
+    var sc_security="1c948a0a"; 
+    </script>
+    <script type="text/javascript"
+    src="https://www.statcounter.com/counter/counter.js"
+    async></script>
+    <noscript><div class="statcounter"><a title="Web Analytics"
+    href="https://statcounter.com/" target="_blank"><img
+    class="statcounter"
+    src="https://c.statcounter.com/12947219/0/1c948a0a/1/"
+    alt="Web Analytics"
+    referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+    <!-- End of Statcounter Code -->
+    </html>
+    
+
+
+</body>
+</html>
+
